@@ -1,5 +1,5 @@
 Django>=5.2,<7.0
 Pillow>=11.0
 gunicorn
-dj-database-url
+postgresql://g_commerce_db_user:zoQekJP4kA21STYDgQlcX5gVhgQct5LF@dpg-db48b37lot8c7385tp40-a/g_commerce_db
 psycopg[binary]
