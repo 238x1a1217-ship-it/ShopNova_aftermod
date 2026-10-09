@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<section class="page-banner page-banner-small"><div class="container"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'home' %}">Home</a><span>/</span><a href="{% url 'cart' %}">Cart</a><span>/</span><span>Checkout</span></nav><span class="eyebrow">You’re almost there</span><h1>Checkout</h1></div></section>
+<section class="section container checkout-layout">
+  <div class="checkout-main">
+    <div class="checkout-heading"><span class="step-number">01</span><div><h2>Order summary</h2><p>Check your items before placing your order.</p></div></div>
+    <div class="checkout-items">
+      {% for item in items %}
+        <div class="checkout-item"><a class="cart-thumb" href="{% url 'product_detail' item.product.id %}">{% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">{% else %}<span class="image-placeholder"><span aria-hidden="true">✳</span></span>{% endif %}</a><div class="checkout-item-copy"><a href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a><span>Qty {{ item.quantity }} × ₹{{ item.product.price|floatformat:2 }}</span></div><strong>₹{{ item.subtotal|floatformat:2 }}</strong></div>
+      {% endfor %}
+    </div>
+    <div class="checkout-heading checkout-payment-heading"><span class="step-number">02</span><div><h2>Payment method</h2><p>Choose a simple, secure way to pay.</p></div></div>
+    <div class="payment-option"><span class="radio-mark" aria-hidden="true"></span><span><strong>Cash on delivery</strong><small>Pay in cash when your order arrives</small></span><span class="payment-tag">Available</span></div>
+  </div>
+  <aside class="summary-card checkout-summary"><h2>Order total</h2><div class="summary-line"><span>Subtotal</span><span>₹{{ total|floatformat:2 }}</span></div><div class="summary-line"><span>Delivery</span><span class="free-label">Free</span></div><div class="summary-total"><span>Total</span><strong>₹{{ total|floatformat:2 }}</strong></div><form method="post" data-loading-form>{% csrf_token %}<button class="button button-wide" type="submit">Place order <span aria-hidden="true">→</span></button></form><p class="summary-note"><span aria-hidden="true">⌑</span> Secure checkout · Cash on delivery</p><a class="back-to-cart" href="{% url 'cart' %}"><span aria-hidden="true">←</span> Back to cart</a></aside>
+</section>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Your profile{% endblock %}
+{% block content %}
+<section class="page-banner page-banner-small"><div class="container"><span class="eyebrow">Your account</span><h1>Profile</h1><p>Your details, all in one place.</p></div></section>
+<section class="section container">
+  <div class="profile-card">
+    <div class="profile-avatar" aria-hidden="true">{{ user.username|first|upper }}</div>
+    <div class="profile-details"><span class="eyebrow">Account details</span><h2>{{ user.username }}</h2><dl><div><dt>Username</dt><dd>{{ user.username }}</dd></div><div><dt>Email</dt><dd>{{ user.email|default:"Not provided" }}</dd></div></dl><a class="button button-outline" href="{% url 'order_history' %}">View my orders <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+{% endblock %}

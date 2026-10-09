@@ -1,0 +1,26 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">PEOPLE</span><h1>Customers</h1><p>View customer accounts and their order activity.</p></div>
+  <span class="heading-count-label">{{ page_obj.paginator.count }} customer{{ page_obj.paginator.count|pluralize }}</span>
+</section>
+<section class="panel">
+  <form class="table-toolbar" method="get">
+    <label class="dashboard-search"><span class="sr-only">Search customers</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search name, username or email"></label>
+    <button class="button button-secondary button-compact" type="submit">Search</button>
+  </form>
+  <div class="table-caption">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} customer{{ page_obj.paginator.count|pluralize }}</div>
+  <div class="table-scroll"><table class="data-table">
+    <thead><tr><th>Customer</th><th>Joined</th><th>Orders</th><th>Order value</th><th>Account</th><th></th></tr></thead>
+    <tbody>{% for customer in page_obj %}
+      <tr>
+        <td><div class="customer-profile-cell"><span class="customer-avatar">{{ customer.username|first|upper }}</span><span class="customer-cell-name">{{ customer.get_full_name|default:customer.username }}<small>{{ customer.email|default:"No email provided" }}</small></span></div></td>
+        <td>{{ customer.date_joined|date:"M j, Y" }}</td><td>{{ customer.order_count }}</td><td class="table-amount">₹{{ customer.total_spent|default_if_none:"0.00"|floatformat:2 }}</td>
+        <td>{% if customer.is_active %}<span class="stock-badge stock-badge-ok">Active</span>{% else %}<span class="stock-badge stock-badge-out">Inactive</span>{% endif %}</td>
+        <td><a class="action-button" href="{% url 'dashboard:customer_detail' customer.pk %}">View profile →</a></td>
+      </tr>
+    {% empty %}<tr><td colspan="6"><div class="table-empty">No customers found.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "dashboard/_pagination.html" %}
+</section>
+{% endblock %}

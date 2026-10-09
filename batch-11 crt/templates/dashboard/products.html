@@ -1,0 +1,28 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">CATALOG</span><h1>Products</h1><p>Manage your products, prices, and availability.</p></div>
+  <a class="button button-primary" href="{% url 'dashboard:product_add' %}"><span>＋</span> Add product</a>
+</section>
+<section class="panel">
+  <form class="table-toolbar" method="get">
+    <label class="dashboard-search"><span class="sr-only">Search products</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search products or categories"></label>
+    <label class="filter-select"><span class="sr-only">Filter by category</span><select name="category" onchange="this.form.submit()"><option value="">All categories</option>{% for category in categories %}<option value="{{ category.pk }}" {% if selected_category == category.pk|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>{% endfor %}</select></label>
+    <label class="filter-select"><span class="sr-only">Filter by stock level</span><select name="stock" onchange="this.form.submit()"><option value="">All stock levels</option><option value="available" {% if selected_stock == "available" %}selected{% endif %}>In stock</option><option value="low" {% if selected_stock == "low" %}selected{% endif %}>Low stock</option><option value="out" {% if selected_stock == "out" %}selected{% endif %}>Out of stock</option></select></label>
+    <button class="button button-secondary button-compact" type="submit">Search</button>
+  </form>
+  <div class="table-caption">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }}</div>
+  <div class="table-scroll"><table class="data-table product-table">
+    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Availability</th><th class="actions-heading">Actions</th></tr></thead>
+    <tbody>{% for product in page_obj %}
+      <tr>
+        <td><div class="product-cell"><span class="mini-product-image">{% if product.image %}<img src="{{ product.image.url }}" alt="">{% else %}<span>▣</span>{% endif %}</span><span class="product-cell-name">{{ product.name }}<small>SKU #{{ product.pk }}</small></span></div></td>
+        <td>{{ product.category.name }}</td><td class="table-amount">₹{{ product.price|floatformat:2 }}</td><td>{{ product.stock }}</td>
+        <td>{% if product.stock == 0 %}<span class="stock-badge stock-badge-out">Out of stock</span>{% elif product.stock <= low_stock_threshold %}<span class="stock-badge stock-badge-low">Low stock</span>{% else %}<span class="stock-badge stock-badge-ok">In stock</span>{% endif %}</td>
+        <td><div class="row-actions"><a class="action-button" href="{% url 'dashboard:product_edit' product.pk %}">Edit</a><form method="post" action="{% url 'dashboard:product_delete' product.pk %}" data-confirm="Delete ‘{{ product.name|escapejs }}’? Products referenced by orders cannot be deleted.">{% csrf_token %}<button class="action-button action-danger" type="submit">Delete</button></form></div></td>
+      </tr>
+    {% empty %}<tr><td colspan="6"><div class="table-empty">No products match your search. Try another filter or add a product.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "dashboard/_pagination.html" %}
+</section>
+{% endblock %}

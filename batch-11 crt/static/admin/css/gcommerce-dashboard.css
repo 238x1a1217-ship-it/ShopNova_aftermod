@@ -1,0 +1,136 @@
+.gcommerce-dashboard #content { max-width: 1500px; padding-top: 5px; }
+.gcommerce-dashboard #content-main { float: none; width: 100%; }
+.gcommerce-dashboard #content-related { float: none; width: 100%; margin: 0; }
+.gcommerce-dashboard-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 20px; }
+.gcommerce-dashboard-heading h1 { margin: 3px 0 5px; font-size: 22px; }
+.gcommerce-dashboard-heading p { margin: 0; color: #778396; font-size: 10px; }
+.gcommerce-kicker { color: #7d899a; font-size: 8px; font-weight: 800; letter-spacing: 1px; }
+.gcommerce-primary-button { display: inline-flex; min-height: 35px; align-items: center; gap: 7px; padding: 0 12px; border-radius: 5px; color: #fff !important; background: #2864dc; font-size: 9px; font-weight: 750; text-decoration: none !important; }
+.gcommerce-primary-button:hover { background: #1e50ba; }
+.gcommerce-primary-button span { font-size: 15px; font-weight: 450; }
+.gcommerce-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.gcommerce-metric { min-width: 0; padding: 14px; border: 1px solid #e6ebf2; border-radius: 8px; background: #fff; box-shadow: 0 2px 9px rgb(26 44 72 / 4%); }
+.gcommerce-metric-label { position: relative; min-height: 25px; padding-right: 35px; color: #758195; font-size: 9px; font-weight: 650; }
+.gcommerce-metric-label small { display: block; margin-top: 2px; color: #95a0af; font-size: 7px; font-weight: 450; }
+.gcommerce-metric-icon { position: absolute; top: -3px; right: 0; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 7px; font-size: 14px; font-weight: 750; }
+.metric-blue { color: #3266cc; background: #edf3ff; }
+.metric-purple { color: #7757bd; background: #f3efff; }
+.metric-amber { color: #a76c14; background: #fff5e4; }
+.metric-green { color: #218253; background: #eaf7ef; }
+.gcommerce-metric > strong { display: block; overflow: hidden; margin: 9px 0 7px; color: #182230; font-size: clamp(19px, 2vw, 25px); font-weight: 780; letter-spacing: -.6px; text-overflow: ellipsis; white-space: nowrap; }
+.gcommerce-metric > a { color: #2864dc; font-size: 8px; font-weight: 700; text-decoration: none; }
+.gcommerce-metric > a:hover { color: #1e50ba; text-decoration: underline; }
+.gcommerce-metric > a span { margin-left: 3px; }
+.gcommerce-panels { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(230px, .85fr); align-items: start; gap: 13px; margin-bottom: 17px; }
+.gcommerce-panel, .gcommerce-applications { min-width: 0; overflow: hidden; border: 1px solid #e6ebf2; border-radius: 8px; background: #fff; box-shadow: 0 2px 9px rgb(26 44 72 / 4%); }
+.gcommerce-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 14px 11px; }
+.gcommerce-panel-heading h2 { margin: 0; color: #263449; font-size: 11px; font-weight: 750; }
+.gcommerce-panel-heading p { margin: 3px 0 0; color: #8290a0; font-size: 8px; }
+.gcommerce-panel-heading > a { color: #2864dc; font-size: 8px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.gcommerce-panel-heading > a:hover { color: #1e50ba; }
+.gcommerce-table-scroll { overflow-x: auto; }
+.gcommerce-table { width: 100%; border-collapse: collapse; text-align: left; }
+.gcommerce-table th { height: 32px; padding: 0 9px; border-top: 1px solid #edf0f4; border-bottom: 1px solid #e9edf3; color: #8190a1; background: #fafbfd; font-size: 7px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; white-space: nowrap; }
+.gcommerce-table td { height: 43px; padding: 7px 9px; border-bottom: 1px solid #f0f2f5; color: #59667a; font-size: 8px; white-space: nowrap; }
+.gcommerce-table tbody tr:last-child td { border-bottom: 0; }
+.gcommerce-table tbody tr:hover { background: #fcfdff; }
+.gcommerce-table-link { color: #2864dc; font-weight: 750; text-decoration: none; }
+.gcommerce-table-link:hover { text-decoration: underline; }
+.gcommerce-status { display: inline-flex; padding: 4px 6px; border-radius: 14px; font-size: 7px; font-weight: 750; }
+.status-pending { color: #8a6414; background: #fff5dc; }
+.status-confirmed, .status-processing { color: #35659a; background: #edf5ff; }
+.status-shipped { color: #6e53a3; background: #f3effb; }
+.status-delivered { color: #267149; background: #eaf7ef; }
+.status-cancelled { color: #a5403d; background: #fff0ef; }
+.gcommerce-alert-count { padding: 4px 7px; border-radius: 14px; color: #936512; background: #fff4df; font-size: 7px; font-weight: 800; white-space: nowrap; }
+.gcommerce-stock-list { padding: 0 12px; }
+.gcommerce-stock-row { display: flex; min-height: 45px; align-items: center; gap: 8px; border-bottom: 1px solid #f0f2f5; }
+.gcommerce-stock-row:last-child { border-bottom: 0; }
+.gcommerce-product-thumb { display: grid; width: 29px; height: 29px; flex: 0 0 29px; place-items: center; overflow: hidden; border: 1px solid #edf0f4; border-radius: 5px; color: #8593a4; background: #f7f9fc; font-size: 12px; }
+.gcommerce-product-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
+.gcommerce-product-label { overflow: hidden; flex: 1; color: #3c495c; font-size: 8px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.gcommerce-product-label a { color: inherit; text-decoration: none; }
+.gcommerce-product-label a:hover { color: #2864dc; }
+.gcommerce-product-label small { display: block; margin-top: 2px; color: #8b96a4; font-size: 7px; font-weight: 450; }
+.gcommerce-stock-amount { flex: 0 0 auto; color: #936512; font-size: 8px; font-weight: 750; }
+.gcommerce-stock-amount.is-out { color: #a5403d; }
+.gcommerce-panel-footer { display: flex; justify-content: space-between; padding: 10px 13px; border-top: 1px solid #e9edf3; color: #2864dc; font-size: 8px; font-weight: 700; text-decoration: none; }
+.gcommerce-panel-footer:hover { background: #f8faff; }
+.gcommerce-empty { padding: 22px 13px; color: #8290a0; font-size: 8px; text-align: center; }
+.gcommerce-applications .gcommerce-panel-heading { padding-block: 12px; }
+.gcommerce-app-list { padding: 0 12px 12px; }
+.gcommerce-app-list .module { margin-bottom: 8px; border: 1px solid #e9edf3; border-radius: 6px; box-shadow: none; }
+.gcommerce-app-list .module caption, .gcommerce-app-list .module h2 { padding: 8px 10px; border-bottom: 1px solid #e9edf3; color: #3a4960; background: #f8fafd; font-size: 9px; }
+.gcommerce-app-list .module th, .gcommerce-app-list .module td { padding: 7px 9px; font-size: 8px; }
+.gcommerce-app-list .addlink, .gcommerce-app-list .changelink { min-height: auto; padding: 2px 4px 2px 18px; border: 0; background-position: left center; box-shadow: none; font-size: 7px; }
+
+/* Increase dashboard typography without changing its layout or behavior. */
+.gcommerce-dashboard-heading h1 { font-size: 28px; }
+.gcommerce-dashboard-heading p { font-size: 13px; }
+.gcommerce-kicker { font-size: 10px; }
+.gcommerce-primary-button { font-size: 12px; }
+.gcommerce-metric-label { font-size: 12px; }
+.gcommerce-metric-label small { font-size: 10px; }
+.gcommerce-metric > a { font-size: 11px; }
+.gcommerce-panel-heading h2 { font-size: 15px; }
+.gcommerce-panel-heading p { font-size: 12px; }
+.gcommerce-panel-heading > a,
+.gcommerce-panel-footer { font-size: 11px; }
+.gcommerce-table th { font-size: 10px; }
+.gcommerce-table td { font-size: 12px; }
+.gcommerce-status,
+.gcommerce-alert-count { font-size: 10px; }
+.gcommerce-product-label,
+.gcommerce-stock-amount { font-size: 12px; }
+.gcommerce-product-label small { font-size: 10px; }
+.gcommerce-empty { font-size: 12px; }
+.gcommerce-app-list .module caption,
+.gcommerce-app-list .module h2 { font-size: 12px; }
+.gcommerce-app-list .module th,
+.gcommerce-app-list .module td { font-size: 11px; }
+.gcommerce-app-list .addlink,
+.gcommerce-app-list .changelink { font-size: 10px; }
+
+@media (max-width: 1100px) {
+  .gcommerce-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gcommerce-panels { grid-template-columns: minmax(0, 1.4fr) minmax(210px, .9fr); }
+}
+@media (max-width: 767px) {
+  .gcommerce-dashboard #content { padding-top: 0; }
+  .gcommerce-dashboard-heading { align-items: flex-start; flex-direction: column; gap: 11px; }
+  .gcommerce-dashboard-heading h1 { font-size: 24px; }
+  .gcommerce-panels { grid-template-columns: 1fr; }
+  .gcommerce-table { min-width: 510px; }
+}
+@media (max-width: 380px) {
+  .gcommerce-metrics { gap: 7px; }
+  .gcommerce-metric { padding: 10px; }
+  .gcommerce-metric > strong { font-size: 19px; }
+}
+
+/* Larger dashboard labels and data for easier reading. */
+.gcommerce-dashboard #content .gcommerce-dashboard-heading h1 { font-size: 32px; }
+.gcommerce-dashboard .gcommerce-dashboard-heading p { font-size: 15px; }
+.gcommerce-dashboard .gcommerce-kicker { font-size: 12px; }
+.gcommerce-dashboard .gcommerce-primary-button { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-metric-label { font-size: 15px; }
+.gcommerce-dashboard .gcommerce-metric-label small { font-size: 12px; }
+.gcommerce-dashboard .gcommerce-metric > a { font-size: 13px; }
+.gcommerce-dashboard .gcommerce-panel-heading h2 { font-size: 18px; }
+.gcommerce-dashboard .gcommerce-panel-heading p { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-panel-heading > a,
+.gcommerce-dashboard .gcommerce-panel-footer { font-size: 13px; }
+.gcommerce-dashboard .gcommerce-table th { font-size: 12px; }
+.gcommerce-dashboard .gcommerce-table td { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-status,
+.gcommerce-dashboard .gcommerce-alert-count { font-size: 12px; }
+.gcommerce-dashboard .gcommerce-product-label,
+.gcommerce-dashboard .gcommerce-stock-amount { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-product-label small { font-size: 12px; }
+.gcommerce-dashboard .gcommerce-empty { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-app-list .module caption,
+.gcommerce-dashboard .gcommerce-app-list .module h2 { font-size: 14px; }
+.gcommerce-dashboard .gcommerce-app-list .module th,
+.gcommerce-dashboard .gcommerce-app-list .module td { font-size: 13px; }
+.gcommerce-dashboard .gcommerce-app-list .addlink,
+.gcommerce-dashboard .gcommerce-app-list .changelink { font-size: 12px; }

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Shop all products{% endblock %}
+{% block content %}
+<section class="page-banner"><div class="container"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'home' %}">Home</a><span>/</span><span>Shop</span></nav><span class="eyebrow">The collection</span><h1>{% if selected_category %}{{ selected_category.name }}{% else %}Shop all products{% endif %}</h1><p>Discover something useful, lovely, or a little bit of both.</p></div></section>
+<section class="section container">
+  <div class="catalog-tools" id="categories">
+    <div class="filter-chips"><a class="filter-chip {% if not selected_category and not request.GET.category %}active{% endif %}" href="{% url 'product_list' %}">All items</a>
+      {% for category in categories %}<a class="filter-chip {% if selected_category.id == category.id or request.GET.category == category.id|stringformat:'s' %}active{% endif %}" href="{% url 'category_products' category.id %}">{{ category.name }}</a>{% endfor %}
+    </div>
+    <form method="get" action="{% if selected_category %}{% url 'category_products' selected_category.id %}{% else %}{% url 'product_list' %}{% endif %}" class="search-sort">
+      <label class="search-field"><span class="sr-only">Search products</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><input type="search" name="q" value="{{ query }}" placeholder="Search this collection"><button type="submit">Search</button></label>
+      <label class="sort-field"><span class="sr-only">Sort products</span><select name="sort" onchange="this.form.submit()"><option value="">Sort: featured</option><option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: low to high</option><option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: high to low</option></select></label>
+    </form>
+  </div>
+  {% if products %}
+    <p class="results-count">Showing {{ products|length }} product{{ products|length|pluralize }}</p>
+    <div class="product-grid">{% for product in products %}{% include "partials/product_card.html" with product=product %}{% endfor %}</div>
+  {% else %}
+    <div class="empty-state"><span class="empty-icon">⌕</span><h3>No products found</h3><p>Try another search or browse all our products.</p><a class="button button-outline" href="{% url 'product_list' %}">Clear filters</a></div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Order placed{% endblock %}
+{% block content %}
+<section class="section container">
+  <div class="success-card"><span class="success-icon" aria-hidden="true">✓</span><span class="eyebrow">Order confirmed</span><h1>Thank you for your order.</h1><p>We’ve received order <strong>#{{ order.id }}</strong>. You can follow its progress from your order details.</p><div class="success-total"><span>Order total</span><strong>₹{{ order.total|floatformat:2 }}</strong></div><div class="success-actions"><a class="button" href="{% url 'order_detail' order.id %}">View your order <span aria-hidden="true">→</span></a><a class="button button-secondary" href="{% url 'product_list' %}">Continue shopping</a></div></div>
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">STORE OVERVIEW</span><h1>Good morning, {{ request.user.first_name|default:request.user.username }}</h1><p>Here’s what’s happening with your store today.</p></div>
+  <a class="button button-primary" href="{% url 'dashboard:product_add' %}"><span>＋</span> Add product</a>
+</section>
+
+<section class="metric-grid" aria-label="Store metrics">
+  <article class="metric-card"><div class="metric-top"><span>Total products</span><span class="metric-icon icon-blue">▣</span></div><strong>{{ product_count }}</strong><a href="{% url 'dashboard:products' %}">Manage products <span>→</span></a></article>
+  <article class="metric-card"><div class="metric-top"><span>Categories</span><span class="metric-icon icon-purple">◫</span></div><strong>{{ category_count }}</strong><a href="{% url 'dashboard:categories' %}">View categories <span>→</span></a></article>
+  <article class="metric-card"><div class="metric-top"><span>Total orders</span><span class="metric-icon icon-amber">▤</span></div><strong>{{ order_count }}</strong><a href="{% url 'dashboard:orders' %}">View orders <span>→</span></a></article>
+  <article class="metric-card"><div class="metric-top"><span>Revenue <small>Excl. cancelled</small></span><span class="metric-icon icon-green">₹</span></div><strong>₹{{ revenue|floatformat:2 }}</strong><a href="{% url 'dashboard:orders' %}">View sales <span>→</span></a></article>
+</section>
+
+<section class="dashboard-panels">
+  <article class="panel">
+    <div class="panel-heading"><div><h2>Recent orders</h2><p>The latest activity from your customers.</p></div><a class="panel-link" href="{% url 'dashboard:orders' %}">All orders <span>→</span></a></div>
+    {% if recent_orders %}
+      <div class="table-scroll"><table class="data-table">
+        <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody>{% for order in recent_orders %}<tr><td><a class="table-primary-link" href="{% url 'admin:shop_order_change' order.pk %}">#{{ order.pk }}</a></td><td>{{ order.user.username }}</td><td>{{ order.created_at|date:"M j, Y" }}</td><td>₹{{ order.total|floatformat:2 }}</td><td><span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span></td></tr>{% endfor %}</tbody>
+      </table></div>
+    {% else %}<div class="table-empty">Orders will appear here when customers place them.</div>{% endif %}
+  </article>
+
+  <article class="panel inventory-panel">
+    <div class="panel-heading"><div><h2>Stock alerts</h2><p>Products with {{ low_stock_threshold }} or fewer units.</p></div><span class="alert-count">{{ low_stock_count }} low</span></div>
+    {% if low_stock_products %}
+      <div class="stock-alert-list">{% for product in low_stock_products %}
+        <div class="stock-alert-item">
+          <span class="mini-product-image">{% if product.image %}<img src="{{ product.image.url }}" alt="">{% else %}<span>▣</span>{% endif %}</span>
+          <span class="stock-alert-name">{{ product.name }}<small>{{ product.category.name }}</small></span>
+          <span class="stock-quantity {% if product.stock == 0 %}stock-zero{% endif %}">{% if product.stock == 0 %}Out{% else %}{{ product.stock }} left{% endif %}</span>
+        </div>
+      {% endfor %}</div>
+      <a class="panel-footer-link" href="{% url 'dashboard:inventory' %}?stock=low">Review inventory <span>→</span></a>
+    {% else %}<div class="table-empty">All products are stocked above the low-stock threshold.</div>{% endif %}
+  </article>
+</section>
+{% endblock %}

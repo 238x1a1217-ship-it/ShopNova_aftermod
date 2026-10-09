@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Your cart{% endblock %}
+{% block content %}
+<section class="page-banner page-banner-small"><div class="container"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'home' %}">Home</a><span>/</span><span>Cart</span></nav><span class="eyebrow">Review your selection</span><h1>Your shopping cart <span class="heading-count">({{ cart_item_count }} item{{ cart_item_count|pluralize }})</span></h1></div></section>
+<section class="section container">
+  {% if items %}
+    <div class="cart-layout">
+      <div class="cart-table-wrap">
+        <div class="cart-table-head"><span>Product</span><span>Price</span><span>Quantity</span><span>Subtotal</span><span class="sr-only">Actions</span></div>
+        {% for item in items %}
+          <article class="cart-row">
+            <div class="cart-product"><a class="cart-thumb" href="{% url 'product_detail' item.product.id %}">{% if item.product.image %}<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">{% else %}<span class="image-placeholder"><span aria-hidden="true">✳</span></span>{% endif %}</a><div><span class="product-category">{{ item.product.category.name }}</span><a class="cart-product-name" href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a>{% if not item.available %}<span class="stock-warning">Only {{ item.product.stock }} left — update quantity to continue</span>{% endif %}</div></div>
+            <span class="cart-price">₹{{ item.product.price|floatformat:2 }}</span>
+            <div class="cart-quantity">
+              <form method="post" action="{% url 'cart_decrease' item.product.id %}">{% csrf_token %}<button type="submit" aria-label="Decrease {{ item.product.name }} quantity">−</button></form>
+              <span aria-label="Quantity {{ item.quantity }}">{{ item.quantity }}</span>
+              <form method="post" action="{% url 'cart_increase' item.product.id %}">{% csrf_token %}<button type="submit" aria-label="Increase {{ item.product.name }} quantity" {% if item.quantity >= item.product.stock %}disabled{% endif %}>+</button></form>
+            </div>
+            <strong class="cart-subtotal">₹{{ item.subtotal|floatformat:2 }}</strong>
+            <form method="post" action="{% url 'cart_remove' item.product.id %}" data-confirm="Remove {{ item.product.name }} from your cart?">{% csrf_token %}<button class="remove-button" type="submit">Remove</button></form>
+          </article>
+        {% endfor %}
+        <div class="cart-bottom-links"><a class="text-link" href="{% url 'product_list' %}"><span aria-hidden="true">←</span> Continue shopping</a><form method="post" action="{% url 'cart_clear' %}" data-confirm="Clear all items from your cart?">{% csrf_token %}<button class="subtle-button" type="submit">Clear cart</button></form></div>
+      </div>
+      <aside class="summary-card"><h2>Order summary</h2><div class="summary-line"><span>Subtotal</span><span>₹{{ total|floatformat:2 }}</span></div><div class="summary-line"><span>Delivery</span><span class="free-label">Free</span></div><div class="summary-total"><span>Estimated total</span><strong>₹{{ total|floatformat:2 }}</strong></div><a class="button button-wide" href="{% url 'checkout' %}">Proceed to checkout <span aria-hidden="true">→</span></a><p class="summary-note"><span aria-hidden="true">⌑</span> Cash on delivery · No payment required now</p></aside>
+    </div>
+  {% else %}
+    <div class="empty-state"><span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 1.9-1.4L21 8H6"></path><circle cx="10" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg></span><h2>Your cart is empty</h2><p>Looks like you haven’t added anything just yet. Find something you’ll love.</p><a class="button" href="{% url 'product_list' %}">Start shopping <span aria-hidden="true">→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

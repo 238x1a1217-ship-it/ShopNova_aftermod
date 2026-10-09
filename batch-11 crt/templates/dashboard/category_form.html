@@ -1,0 +1,14 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">CATALOG / CATEGORIES</span><h1>{{ page_title }}</h1><p>Give this collection a clear name customers can browse.</p></div>
+  <a class="button button-secondary" href="{% url 'dashboard:categories' %}">← Back to categories</a>
+</section>
+<section class="panel form-panel form-panel-narrow">
+  <form method="post" class="dashboard-form">{% csrf_token %}
+    {% if form.non_field_errors %}<div class="form-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}</label>{{ field }}{% for error in field.errors %}<small class="field-error">{{ error }}</small>{% endfor %}</div>{% endfor %}
+    <div class="form-actions form-field-wide"><a class="button button-secondary" href="{% url 'dashboard:categories' %}">Cancel</a><button class="button button-primary" type="submit">{{ page_title }}</button></div>
+  </form>
+</section>
+{% endblock %}

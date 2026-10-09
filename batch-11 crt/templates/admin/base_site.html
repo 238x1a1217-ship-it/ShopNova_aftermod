@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | ShopNova{% endblock %}
+{% block branding %}
+  <div id="site-name"><a href="{% url 'admin:index' %}" class="gcommerce-admin-brand"><span class="gcommerce-brand-mark">S</span><span>ShopNova<small>STORE ADMIN</small></span></a></div>
+{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'admin/css/gcommerce.css' %}">{% endblock %}
+{% block nav-sidebar %}
+  {% if is_nav_sidebar_enabled %}
+    <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+    <nav class="sticky" id="nav-sidebar" aria-label="Sidebar">
+      <div class="gcommerce-sidebar-label">WORKSPACE</div>
+      <ul class="gcommerce-nav">
+        <li><a class="gcommerce-nav-link {% if request.resolver_match.url_name == 'index' %}is-active{% endif %}" href="{% url 'admin:index' %}"><span class="gcommerce-nav-icon">▦</span>Dashboard</a></li>
+        {% if perms.shop.view_product or perms.shop.add_product %}
+          <li><a class="gcommerce-nav-link {% if opts and opts.app_label == 'shop' and opts.model_name == 'product' and not request.GET.stock_status %}is-active{% endif %}" href="{% url 'admin:shop_product_changelist' %}"><span class="gcommerce-nav-icon">▣</span>Products</a></li>
+        {% endif %}
+        {% if perms.shop.view_category or perms.shop.add_category %}
+          <li><a class="gcommerce-nav-link {% if opts and opts.app_label == 'shop' and opts.model_name == 'category' %}is-active{% endif %}" href="{% url 'admin:shop_category_changelist' %}"><span class="gcommerce-nav-icon">◫</span>Categories</a></li>
+        {% endif %}
+        {% if perms.shop.view_order or perms.shop.add_order %}
+          <li><a class="gcommerce-nav-link {% if opts and opts.app_label == 'shop' and opts.model_name == 'order' %}is-active{% endif %}" href="{% url 'admin:shop_order_changelist' %}"><span class="gcommerce-nav-icon">▤</span>Orders</a></li>
+        {% endif %}
+        {% if perms.auth.view_user or perms.auth.add_user %}
+          <li><a class="gcommerce-nav-link {% if opts and opts.app_label == 'auth' and opts.model_name == 'user' %}is-active{% endif %}" href="{% url 'admin:auth_user_changelist' %}"><span class="gcommerce-nav-icon">♙</span>Customers</a></li>
+        {% endif %}
+        {% if perms.shop.view_product or perms.shop.change_product %}
+          <li><a class="gcommerce-nav-link {% if request.resolver_match.url_name == 'inventory' or request.GET.stock_status %}is-active{% endif %}" href="{% url 'admin:inventory' %}"><span class="gcommerce-nav-icon">▧</span>Inventory{% if gcommerce_low_stock_count %}<span class="gcommerce-nav-count">{{ gcommerce_low_stock_count }}</span>{% endif %}</a></li>
+        {% endif %}
+      </ul>
+      <div class="gcommerce-sidebar-bottom">
+        <a class="gcommerce-nav-link" href="{% url 'home' %}"><span class="gcommerce-nav-icon">↗</span>View storefront</a>
+        {% if has_permission %}
+          <form method="post" action="{% url 'admin:logout' %}" class="gcommerce-logout-form">{% csrf_token %}<button class="gcommerce-nav-link" type="submit"><span class="gcommerce-nav-icon">⇥</span>Log out</button></form>
+        {% endif %}
+      </div>
+    </nav>
+  {% endif %}
+{% endblock %}

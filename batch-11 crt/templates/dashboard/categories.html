@@ -1,0 +1,22 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">CATALOG</span><h1>Categories</h1><p>Organize products so customers can browse your store.</p></div>
+  <a class="button button-primary" href="{% url 'dashboard:category_add' %}"><span>＋</span> Add category</a>
+</section>
+<section class="panel">
+  <form class="table-toolbar" method="get">
+    <label class="dashboard-search"><span class="sr-only">Search categories</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search categories"></label>
+    <button class="button button-secondary button-compact" type="submit">Search</button>
+  </form>
+  <div class="table-caption">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} categor{{ page_obj.paginator.count|pluralize:"y,ies" }}</div>
+  <div class="table-scroll"><table class="data-table">
+    <thead><tr><th>Category</th><th>Products</th><th class="actions-heading">Actions</th></tr></thead>
+    <tbody>{% for category in page_obj %}
+      <tr><td><span class="category-table-name"><span class="category-table-icon">◫</span>{{ category.name }}</span></td><td>{{ category.product_count }}</td>
+        <td><div class="row-actions"><a class="action-button" href="{% url 'dashboard:category_edit' category.pk %}">Edit</a><form method="post" action="{% url 'dashboard:category_delete' category.pk %}" data-confirm="Delete category ‘{{ category.name|escapejs }}’? Categories with products cannot be deleted.">{% csrf_token %}<button class="action-button action-danger" type="submit">Delete</button></form></div></td></tr>
+    {% empty %}<tr><td colspan="3"><div class="table-empty">No categories found. Add your first category to organize products.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "dashboard/_pagination.html" %}
+</section>
+{% endblock %}

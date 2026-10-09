@@ -1,0 +1,28 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">CATALOG / STOCK CONTROL</span><h1>Inventory</h1><p>Update stock levels and keep an eye on products that need replenishing.</p></div>
+  <span class="low-stock-summary"><i></i> Low stock threshold: {{ low_stock_threshold }} units</span>
+</section>
+<section class="panel">
+  <form class="table-toolbar" method="get">
+    <label class="dashboard-search"><span class="sr-only">Search inventory</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search products or categories"></label>
+    <label class="filter-select"><span class="sr-only">Filter by stock</span><select name="stock" onchange="this.form.submit()"><option value="">All inventory</option><option value="available" {% if selected_stock == "available" %}selected{% endif %}>In stock</option><option value="low" {% if selected_stock == "low" %}selected{% endif %}>Low stock</option><option value="out" {% if selected_stock == "out" %}selected{% endif %}>Out of stock</option></select></label>
+    <button class="button button-secondary button-compact" type="submit">Search</button>
+  </form>
+  <div class="table-caption">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }}</div>
+  <div class="table-scroll"><table class="data-table inventory-table">
+    <thead><tr><th>Product</th><th>Category</th><th>Stock status</th><th>Available units</th><th>Update stock</th></tr></thead>
+    <tbody>{% for product in page_obj %}
+      <tr>
+        <td><div class="product-cell"><span class="mini-product-image">{% if product.image %}<img src="{{ product.image.url }}" alt="">{% else %}<span>▣</span>{% endif %}</span><span class="product-cell-name">{{ product.name }}<small>SKU #{{ product.pk }}</small></span></div></td>
+        <td>{{ product.category.name }}</td>
+        <td>{% if product.stock == 0 %}<span class="stock-badge stock-badge-out">Out of stock</span>{% elif product.stock <= low_stock_threshold %}<span class="stock-badge stock-badge-low">Low stock</span>{% else %}<span class="stock-badge stock-badge-ok">Healthy</span>{% endif %}</td>
+        <td class="stock-number {% if product.stock <= low_stock_threshold %}stock-number-low{% endif %}">{{ product.stock }}<small>units</small></td>
+        <td><form class="inventory-update-form" method="post" action="{% url 'dashboard:inventory_update' product.pk %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><label class="sr-only" for="stock-{{ product.pk }}">Stock quantity for {{ product.name }}</label><input id="stock-{{ product.pk }}" name="stock" type="number" min="0" step="1" value="{{ product.stock }}" required><button class="icon-submit" type="submit">Save</button></form></td>
+      </tr>
+    {% empty %}<tr><td colspan="5"><div class="table-empty">No products match your inventory filter.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "dashboard/_pagination.html" %}
+</section>
+{% endblock %}

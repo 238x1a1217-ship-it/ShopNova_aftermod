@@ -1,0 +1,22 @@
+<article class="product-card">
+  <a class="product-image-link" href="{% url 'product_detail' product.id %}">
+    <div class="product-image">
+      {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+      {% else %}<span class="image-placeholder" aria-label="No image available"><span aria-hidden="true">✳</span></span>{% endif %}
+      {% if product.stock == 0 %}<span class="stock-pill stock-out">Out of stock</span>{% elif product.stock <= 3 %}<span class="stock-pill stock-low">Only {{ product.stock }} left</span>{% endif %}
+    </div>
+  </a>
+  <div class="product-card-body">
+    <span class="product-category">{{ product.category.name }}</span>
+    <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+    <div class="product-card-price-row"><span class="price">₹{{ product.price|floatformat:2 }}</span>
+      {% if product.stock > 3 %}<span class="stock-label"><span class="stock-dot"></span>In stock</span>{% endif %}
+    </div>
+    <div class="product-card-actions">
+      <a class="button button-card-secondary" href="{% url 'product_detail' product.id %}">View details</a>
+      {% if product.stock > 0 %}
+        <form method="post" action="{% url 'cart_add' product.id %}" class="inline-add" data-loading-form>{% csrf_token %}<input type="hidden" name="quantity" value="1"><input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="button button-card-primary" type="submit" aria-label="Add {{ product.name }} to cart">Add to cart</button></form>
+      {% else %}<button class="button button-card-primary" type="button" disabled>Out of stock</button>{% endif %}
+    </div>
+  </div>
+</article>

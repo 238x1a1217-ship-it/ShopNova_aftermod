@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Create your account{% endblock %}
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card"><a class="auth-back" href="{% url 'home' %}"><span aria-hidden="true">←</span> Back to the shop</a><span class="eyebrow">Make yourself at home</span><h1>Create your account.</h1><p class="auth-intro">Join us to check out and keep track of your orders.</p>
+    <form method="post" class="auth-form" data-loading-form>{% csrf_token %}{% if form.non_field_errors %}<div class="form-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}<input type="hidden" name="next" value="{{ next }}">
+      {% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.name == "password1" or field.name == "password2" %}<div class="password-field">{{ field }}<button type="button" class="password-toggle" data-password-toggle="{{ field.id_for_label }}" aria-label="Show {{ field.label|lower }}">Show</button></div>{% else %}{{ field }}{% endif %}{% if field.help_text %}<span class="field-help">{{ field.help_text|safe }}</span>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}{% endfor %}
+      <button class="button button-wide" type="submit">Create account <span aria-hidden="true">→</span></button>
+    </form>
+    <p class="auth-switch">Already have an account? <a href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Log in</a></p>
+  </div>
+</section>
+{% endblock %}

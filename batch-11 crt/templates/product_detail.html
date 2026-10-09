@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<div class="container">
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'home' %}">Home</a><span>/</span><a href="{% url 'product_list' %}">Shop</a><span>/</span><a href="{% url 'category_products' product.category.id %}">{{ product.category.name }}</a><span>/</span><span>{{ product.name }}</span></nav>
+  <section class="detail-layout">
+    <div class="detail-image">
+      {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">
+      {% else %}<span class="image-placeholder image-placeholder-large"><span aria-hidden="true">✳</span><small>Product image</small></span>{% endif %}
+    </div>
+    <div class="detail-copy">
+      <a class="product-category detail-category" href="{% url 'category_products' product.category.id %}">{{ product.category.name }}</a>
+      <h1>{{ product.name }}</h1>
+      <p class="detail-price">₹{{ product.price|floatformat:2 }}</p>
+      {% if product.description %}<p class="detail-description">{{ product.description|linebreaksbr }}</p>{% else %}<p class="detail-description">A thoughtful find for everyday life.</p>{% endif %}
+      <div class="stock-status">{% if product.stock > 0 %}<span class="status-dot"></span>{% if product.stock <= 3 %}Only {{ product.stock }} left in stock{% else %}In stock{% endif %}<span class="stock-quantity">({{ product.stock }} available)</span>{% else %}<span class="status-dot status-dot-out"></span>Out of stock{% endif %}</div>
+      {% if product.stock > 0 %}
+        <form method="post" action="{% url 'cart_add' product.id %}" class="detail-form" data-loading-form>{% csrf_token %}
+          <div class="quantity-control"><button type="button" class="quantity-step" data-step="-1" aria-label="Decrease quantity">−</button><label class="sr-only" for="quantity">Quantity</label><input id="quantity" name="quantity" type="number" value="1" min="1" max="{{ product.stock }}"><button type="button" class="quantity-step" data-step="1" aria-label="Increase quantity">+</button></div>
+          <button type="submit" class="button button-wide">Add to cart <span aria-hidden="true">→</span></button>
+        </form>
+      {% else %}<button class="button button-wide" type="button" disabled>Currently unavailable</button>{% endif %}
+      <div class="detail-promises"><span><b aria-hidden="true">✓</b> Secure checkout</span><span><b aria-hidden="true">✓</b> Cash on delivery</span></div>
+    </div>
+  </section>
+</div>
+{% endblock %}

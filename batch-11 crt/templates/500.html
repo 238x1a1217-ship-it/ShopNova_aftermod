@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Something went wrong{% endblock %}
+{% block content %}
+<section class="section container">
+  <div class="empty-state error-state">
+    <span class="empty-icon" aria-hidden="true">!</span>
+    <span class="eyebrow">Something went wrong</span>
+    <h1>Please try again.</h1>
+    <p>We couldn’t complete that request. Head back to the shop and give it another try.</p>
+    <a class="button" href="{% url 'home' %}">Go home <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+{% endblock %}

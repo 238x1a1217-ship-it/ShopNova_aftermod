@@ -1,0 +1,17 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">PEOPLE / CUSTOMER</span><h1>{{ customer.get_full_name|default:customer.username }}</h1><p>Customer account and order history.</p></div>
+  <a class="button button-secondary" href="{% url 'dashboard:customers' %}">← Back to customers</a>
+</section>
+<section class="customer-detail-grid">
+  <article class="panel customer-info-panel"><span class="customer-avatar customer-avatar-large">{{ customer.username|first|upper }}</span><h2>{{ customer.get_full_name|default:customer.username }}</h2><p>{{ customer.email|default:"No email provided" }}</p><dl><div><dt>Username</dt><dd>{{ customer.username }}</dd></div><div><dt>Joined</dt><dd>{{ customer.date_joined|date:"M j, Y" }}</dd></div><div><dt>Orders</dt><dd>{{ page_obj.paginator.count }}</dd></div></dl></article>
+  <article class="panel customer-orders-panel"><div class="panel-heading"><div><h2>Order history</h2><p>Orders placed by this customer.</p></div></div>
+    <div class="table-scroll"><table class="data-table"><thead><tr><th>Order</th><th>Date</th><th>Total</th><th>Status</th></tr></thead><tbody>
+      {% for order in page_obj %}<tr><td><a class="table-primary-link" href="{% url 'admin:shop_order_change' order.pk %}">#{{ order.pk }}</a></td><td>{{ order.created_at|date:"M j, Y" }}</td><td>₹{{ order.total|floatformat:2 }}</td><td><span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span></td></tr>
+      {% empty %}<tr><td colspan="4"><div class="table-empty">This customer hasn’t placed any orders yet.</div></td></tr>{% endfor %}
+    </tbody></table></div>
+    {% include "dashboard/_pagination.html" %}
+  </article>
+</section>
+{% endblock %}

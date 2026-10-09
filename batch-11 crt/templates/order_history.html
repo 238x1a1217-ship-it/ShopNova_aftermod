@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}My orders{% endblock %}
+{% block content %}
+<section class="page-banner page-banner-small"><div class="container"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'home' %}">Home</a><span>/</span><span>My orders</span></nav><span class="eyebrow">Your account</span><h1>My orders</h1><p>See what you’ve ordered and check each order’s status.</p></div></section>
+<section class="section container">
+  {% if orders %}
+    <div class="orders-table">
+      <div class="orders-table-head"><span>Order</span><span>Date</span><span>Items</span><span>Total</span><span>Status</span><span class="sr-only">Action</span></div>
+      {% for order in orders %}
+        <article class="orders-table-row"><strong class="order-label">#{{ order.id }}</strong><span class="order-date">{{ order.created_at|date:"M j, Y" }}</span><span>{{ order.items.count }} item{{ order.items.count|pluralize }}</span><strong>₹{{ order.total|floatformat:2 }}</strong><span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span><a class="button button-secondary button-small" href="{% url 'order_detail' order.id %}">View order <span aria-hidden="true">→</span></a></article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state"><span class="empty-icon" aria-hidden="true">⌂</span><h2>You haven’t placed any orders yet</h2><p>When you find something you love, your orders will appear here.</p><a class="button" href="{% url 'product_list' %}">Start shopping <span aria-hidden="true">→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

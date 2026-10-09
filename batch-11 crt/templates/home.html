@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Shop smart, shop simple{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> A better way to find your favourites</span>
+      <h1>Find things<br>you’ll <span>love.</span></h1>
+      <p>Thoughtful everyday finds, quality products, and a smoother way to shop. Discover something good today.</p>
+      <div class="hero-actions">
+        <a class="button" href="{% url 'product_list' %}">Shop now <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="#categories">Explore categories</a>
+      </div>
+      <div class="hero-assurance"><span><b aria-hidden="true">✓</b> Easy checkout</span><span><b aria-hidden="true">✓</b> Cash on delivery</span></div>
+    </div>
+    <div class="hero-visual">
+      {% if featured_products %}
+        {% for product in featured_products|slice:":1" %}
+          <a class="hero-product-image" href="{% url 'product_detail' product.id %}" aria-label="Explore {{ product.name }}">
+            {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}" fetchpriority="high">
+            {% else %}<span class="image-placeholder hero-placeholder"><span aria-hidden="true">✳</span></span>{% endif %}
+          </a>
+          <div class="hero-product-note"><span class="hero-note-label">A good place to start</span><a href="{% url 'product_detail' product.id %}">{{ product.name }} <span aria-hidden="true">↗</span></a><strong>₹{{ product.price|floatformat:2 }}</strong></div>
+        {% endfor %}
+      {% else %}
+        <div class="hero-empty-visual" aria-hidden="true"><span class="hero-empty-symbol">g</span><span>GOOD FINDS<br>START HERE</span></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section container" id="categories">
+  <div class="section-heading"><div><span class="eyebrow">Find your thing</span><h2>Shop by category</h2></div><a class="text-link" href="{% url 'product_list' %}">All products <span aria-hidden="true">→</span></a></div>
+  {% if categories %}
+    <div class="category-grid">
+      {% for category in categories %}
+      <a class="category-tile" href="{% url 'category_products' category.id %}">
+        <span class="category-symbol" aria-hidden="true">{% cycle "◇" "○" "▤" "✳" %}</span>
+        <span class="category-tile-name">{{ category.name }}</span>
+        <span class="category-arrow" aria-hidden="true">↗</span>
+      </a>
+    {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state compact"><p>Categories are on their way. Check back soon.</p></div>
+  {% endif %}
+</section>
+
+<section class="section section-soft">
+  <div class="container">
+    <div class="section-heading"><div><span class="eyebrow">A few good picks</span><h2>Featured products</h2><p class="section-description">A hand-picked place to begin.</p></div><a class="text-link" href="{% url 'product_list' %}">View all products <span aria-hidden="true">→</span></a></div>
+    {% if featured_products %}
+      <div class="product-grid">
+        {% for product in featured_products %}
+          {% include "partials/product_card.html" with product=product %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state"><span class="empty-icon">✳</span><h3>Good things are coming</h3><p>Our shelves are getting stocked. Please check back soon.</p></div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section container" id="about">
+  <div class="section-heading"><div><span class="eyebrow">The good goods promise</span><h2>Small details. Better days.</h2></div></div>
+  <div class="benefit-grid">
+    <article class="benefit"><span class="benefit-icon" aria-hidden="true">↗</span><h3>Easy ordering</h3><p>A few clicks from browsing to checkout. Shopping should feel simple.</p></article>
+    <article class="benefit"><span class="benefit-icon" aria-hidden="true">♡</span><h3>Thoughtful picks</h3><p>Useful, lovely things picked to fit right into your everyday.</p></article>
+    <article class="benefit"><span class="benefit-icon" aria-hidden="true">⌂</span><h3>Pay on delivery</h3><p>Place your order now and pay when it arrives at your door.</p></article>
+  </div>
+</section>
+{% endblock %}

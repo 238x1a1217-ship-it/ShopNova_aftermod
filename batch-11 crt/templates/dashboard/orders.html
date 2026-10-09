@@ -1,0 +1,30 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<section class="page-heading">
+  <div><span class="page-kicker">SALES</span><h1>Orders</h1><p>Review orders and keep their fulfillment status up to date.</p></div>
+  <span class="heading-count-label">{{ page_obj.paginator.count }} total order{{ page_obj.paginator.count|pluralize }}</span>
+</section>
+<section class="panel">
+  <form class="table-toolbar" method="get">
+    <label class="dashboard-search"><span class="sr-only">Search orders</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Order ID, customer or email"></label>
+    <label class="filter-select"><span class="sr-only">Filter by order status</span><select name="status" onchange="this.form.submit()"><option value="">All statuses</option>{% for value, label in statuses %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="button button-secondary button-compact" type="submit">Search</button>
+  </form>
+  <div class="table-caption">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} order{{ page_obj.paginator.count|pluralize }}</div>
+  <div class="table-scroll"><table class="data-table order-management-table">
+    <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Update status</th><th>Details</th></tr></thead>
+    <tbody>{% for order in page_obj %}
+      <tr>
+        <td><a class="table-primary-link" href="{% url 'admin:shop_order_change' order.pk %}">#{{ order.pk }}</a></td>
+        <td><span class="customer-cell-name">{{ order.user.get_full_name|default:order.user.username }}<small>{{ order.user.email|default:"No email" }}</small></span></td>
+        <td>{{ order.created_at|date:"M j, Y" }}<small class="table-subtext">{{ order.created_at|date:"g:i A" }}</small></td>
+        <td class="table-amount">₹{{ order.total|floatformat:2 }}</td>
+        <td><span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span></td>
+        <td><form class="inline-status-form" method="post" action="{% url 'dashboard:order_status' order.pk %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><label class="sr-only" for="status-{{ order.pk }}">Status for order {{ order.pk }}</label><select id="status-{{ order.pk }}" name="status">{% for value, label in statuses %}<option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="icon-submit" type="submit" aria-label="Save status for order {{ order.pk }}">Save</button></form></td>
+        <td><a class="action-button" href="{% url 'admin:shop_order_change' order.pk %}">Details ↗</a></td>
+      </tr>
+    {% empty %}<tr><td colspan="7"><div class="table-empty">No orders match those filters.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "dashboard/_pagination.html" %}
+</section>
+{% endblock %}

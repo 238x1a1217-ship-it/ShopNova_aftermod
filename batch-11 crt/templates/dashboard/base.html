@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>{{ page_title }} · ShopNova</title>
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <script src="{% static 'js/dashboard.js' %}" defer></script>
+</head>
+<body class="dashboard-body">
+  <div class="dashboard-shell">
+    <aside class="sidebar" id="dashboard-sidebar">
+      <a class="dashboard-brand" href="{% url 'dashboard:home' %}"><span class="dashboard-brand-icon">G</span><span>ShopNova<small>STORE MANAGEMENT</small></span></a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="sidebar-nav" aria-label="Dashboard">
+        <a class="sidebar-link {% if active_nav == 'dashboard' %}is-active{% endif %}" href="{% url 'dashboard:home' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg></span>Dashboard</a>
+        <a class="sidebar-link {% if active_nav == 'products' %}is-active{% endif %}" href="{% url 'dashboard:products' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"></path><path d="m4 12 8 4 8-4"></path><path d="m4 17 8 4 8-4"></path></svg></span>Products</a>
+        <a class="sidebar-link {% if active_nav == 'categories' %}is-active{% endif %}" href="{% url 'dashboard:categories' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="4" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="14" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="14" width="7" height="7" rx="1.5"></rect></svg></span>Categories</a>
+        <a class="sidebar-link {% if active_nav == 'orders' %}is-active{% endif %}" href="{% url 'dashboard:orders' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 3.5h12a2 2 0 0 1 2 2v15l-4-2-4 2-4-2-4 2v-15a2 2 0 0 1 2-2Z"></path><path d="M8 8h8M8 12h8"></path></svg></span>Orders</a>
+        <a class="sidebar-link {% if active_nav == 'customers' %}is-active{% endif %}" href="{% url 'dashboard:customers' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20v-1.5a6 6 0 0 1 12 0V20H3Zm13-11a3 3 0 1 0 0-6m2 9a5 5 0 0 1 3 4.5V20h-3"></path></svg></span>Customers</a>
+        <a class="sidebar-link {% if active_nav == 'inventory' %}is-active{% endif %}" href="{% url 'dashboard:inventory' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m3 7 9-4 9 4-9 4-9-4Z"></path><path d="M3 7v10l9 4 9-4V7M12 11v10"></path></svg></span>Inventory <span class="sidebar-count">{{ low_stock_nav_count|default:"" }}</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a class="sidebar-link" href="{% url 'home' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path></svg></span>View storefront</a>
+        <a class="sidebar-link" href="{% url 'admin:index' %}"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="m19.4 15 .1.1 1.2.9-1.2 2.1-1.4-.6a8 8 0 0 1-1.7 1l-.2 1.5h-2.4l-.3-1.5a8 8 0 0 1-1.8-1l-1.4.6-1.2-2.1 1.2-.9a8 8 0 0 1 0-2l-1.2-.9 1.2-2.1 1.4.6a8 8 0 0 1 1.8-1l.3-1.5h2.4l.2 1.5a8 8 0 0 1 1.7 1l1.4-.6 1.2 2.1-1.2.9a8 8 0 0 1-.1 1.9Z"></path></svg></span>Django Admin</a>
+        <div class="sidebar-account">
+          <span class="account-avatar">{{ request.user.username|first|upper }}</span>
+          <span class="account-name">{{ request.user.get_full_name|default:request.user.username }}<small>Store administrator</small></span>
+          <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="icon-logout" type="submit" aria-label="Log out">⇥</button></form>
+        </div>
+      </div>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <button class="sidebar-toggle" type="button" aria-label="Open dashboard navigation" aria-expanded="false" aria-controls="dashboard-sidebar"><span></span><span></span><span></span></button>
+        <div class="topbar-breadcrumb"><span>Store</span><span>/</span><strong>{{ page_title }}</strong></div>
+        <div class="topbar-right"><span class="store-status"><i></i> Store is live</span><span class="topbar-avatar">{{ request.user.username|first|upper }}</span></div>
+      </header>
+
+      {% if messages %}
+        <div class="dashboard-messages" aria-live="polite">
+          {% for message in messages %}
+            <div class="dashboard-message message-{{ message.tags }}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}"><span>{{ message }}</span><button type="button" class="dashboard-message-close" aria-label="Dismiss notification">×</button></div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <main class="dashboard-content">
+        {% block dashboard_content %}{% endblock %}
+      </main>
+      <footer class="dashboard-footer"><span>ShopNova Store Management</span><span>© {% now "Y" %} · Good Goods</span></footer>
+    </div>
+  </div>
+</body>
+</html>

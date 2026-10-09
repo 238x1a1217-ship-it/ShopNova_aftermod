@@ -1,0 +1,130 @@
+:root {
+  color-scheme: light;
+  --primary: #2864dc;
+  --primary-dark: #1e50ba;
+  --surface: #fff;
+  --page-bg: #f5f7fb;
+  --text-color: #182230;
+  --muted-color: #758195;
+  --border-color: #e6ebf2;
+  --link-fg: #2864dc;
+  --link-hover-color: #1e50ba;
+  --link-selected-fg: #1e50ba;
+  --button-bg: #2864dc;
+  --button-hover-bg: #1e50ba;
+  --default-button-bg: #2864dc;
+  --default-button-hover-bg: #1e50ba;
+  --hairline-color: #e6ebf2;
+}
+
+body { color: var(--text-color); background: var(--page-bg); }
+#header { min-height: 58px; padding: 0 25px; background: #fff; box-shadow: 0 1px 5px rgb(25 43 69 / 5%); }
+#branding { display: flex; align-items: center; min-height: 58px; }
+#site-name { margin: 0; font-size: 14px; }
+#site-name a:link, #site-name a:visited { color: var(--text-color); }
+.gcommerce-admin-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.3px; }
+.gcommerce-admin-brand small { display: block; margin-top: 1px; color: #8490a0; font-size: 7px; font-weight: 750; letter-spacing: 1.2px; }
+.gcommerce-brand-mark { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 8px; color: white; background: var(--primary); font-size: 17px; }
+#user-tools { display: flex; align-items: center; gap: 13px; color: #778396; font-size: 10px; }
+#user-tools a, #user-tools button { color: #536174; }
+#user-tools a:hover, #user-tools button:hover { color: var(--primary); }
+#logout-form { display: inline-flex; margin: 0; }
+#logout-form button { padding: 0; border: 0; color: #536174; background: transparent; font: inherit; cursor: pointer; }
+#logout-form button:hover { color: var(--primary); }
+#toggle-nav-sidebar { background-color: #fff; }
+#nav-sidebar { top: 58px; bottom: 0; box-sizing: border-box; padding: 16px 11px; border-right: 1px solid var(--border-color); background: #fff; }
+.gcommerce-sidebar-label { padding: 4px 11px 9px; color: #9aa5b3; font-size: 8px; font-weight: 800; letter-spacing: 1.1px; }
+.gcommerce-nav { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; }
+.gcommerce-nav li { margin: 0; padding: 0; list-style: none; }
+.gcommerce-nav-link { display: flex; min-height: 39px; align-items: center; gap: 10px; padding: 0 10px; border-radius: 6px; color: #657286 !important; font-size: 10px; font-weight: 600; text-decoration: none !important; transition: background .15s ease, color .15s ease; }
+.gcommerce-nav-link:hover { color: var(--primary) !important; background: #f4f7fd; }
+.gcommerce-nav-link.is-active { color: var(--primary) !important; background: #eef4ff; font-weight: 750; }
+.gcommerce-nav-icon { display: grid; width: 18px; flex: 0 0 18px; place-items: center; color: currentColor; font-size: 15px; }
+.gcommerce-nav-count { display: grid; min-width: 19px; height: 19px; place-items: center; margin-left: auto; padding: 0 5px; border-radius: 20px; color: #936512; background: #fff4dd; font-size: 8px; font-weight: 800; }
+.gcommerce-sidebar-bottom { display: grid; gap: 3px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border-color); }
+.gcommerce-logout-form { margin: 0; }
+.gcommerce-logout-form .gcommerce-nav-link { width: 100%; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.gcommerce-logout-form .gcommerce-nav-link:hover { color: #b53f3c !important; background: #fff3f2; }
+#main { min-height: calc(100vh - 112px); }
+#content { min-width: 0; }
+#content h1 { color: var(--text-color); font-size: 22px; font-weight: 750; letter-spacing: -.5px; }
+#content h2, #content h3 { color: var(--text-color); }
+.breadcrumbs { padding: 9px 25px; color: #8792a1; background: transparent; font-size: 9px; }
+.breadcrumbs a { color: #657286; }
+.breadcrumbs a:hover { color: var(--primary); }
+.messagelist { margin: 0 0 14px; padding: 0; }
+.messagelist li { min-height: 34px; margin: 0 0 7px; padding: 8px 12px 8px 38px; border: 1px solid #d9eadf; border-radius: 6px; color: #286747; background-position: 12px center; font-size: 10px; box-shadow: none; }
+.messagelist li.error { border-color: #f0d6d4; color: #9e3b39; background-color: #fff6f5; }
+.messagelist li.warning { border-color: #f1e2c5; color: #805d18; background-color: #fffbf2; }
+.messagelist li.info { border-color: #d6e2eb; color: #365b73; background-color: #f5f9fc; }
+.module, .inline-group, .submit-row { overflow: hidden; border: 1px solid var(--border-color); border-radius: 7px; background: #fff; box-shadow: 0 2px 8px rgb(26 44 72 / 3%); }
+.module caption, .module h2, .inline-group h2 { padding: 10px 13px; color: #334257; background: #f8fafd; font-size: 10px; font-weight: 750; }
+.module table th, .module table td { padding: 8px 10px; border-bottom: 1px solid #eef1f5; font-size: 10px; }
+.module table tr:last-child th, .module table tr:last-child td { border-bottom: 0; }
+.module table th { color: #546277; }
+#changelist-filter { border-left-color: var(--border-color); background: #fff; }
+#changelist-filter h2 { color: #405067; background: #f8fafd; font-size: 10px; }
+#changelist-filter li.selected a { color: var(--primary); font-weight: 700; }
+#changelist-form .results { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 7px; background: #fff; }
+#result_list thead th { background: #f8fafd; }
+#result_list thead th, #result_list tbody td { border-bottom-color: #edf0f4; }
+#result_list tbody tr:hover { background: #f8faff; }
+.object-tools a, .addlink, .changelink { border-radius: 5px; }
+input[type="text"], input[type="password"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], textarea, select, .vTextField { box-sizing: border-box; border-color: #dce3ed; border-radius: 4px; }
+input:focus, textarea:focus, select:focus { border-color: #89a9e9 !important; box-shadow: 0 0 0 2px rgb(40 100 220 / 9%); outline: 0; }
+.submit-row { padding: 12px; }
+.submit-row input, input.default, .button, input[type="submit"] { min-height: 31px; border-radius: 5px; font-size: 9px; font-weight: 700; }
+#footer { padding: 12px 25px; color: #8a95a4; font-size: 9px; }
+
+/* Keep Django Admin text comfortably readable across management pages. */
+body { font-size: 13px; }
+#site-name { font-size: 16px; }
+.gcommerce-admin-brand small { font-size: 9px; }
+#user-tools { font-size: 12px; }
+.gcommerce-sidebar-label { font-size: 10px; }
+.gcommerce-nav-link { font-size: 13px; }
+.gcommerce-nav-count { font-size: 10px; }
+#content h1 { font-size: 28px; }
+.breadcrumbs { font-size: 12px; }
+.messagelist li { font-size: 13px; }
+.module caption, .module h2, .inline-group h2,
+#changelist-filter h2 { font-size: 13px; }
+.module table th, .module table td,
+#changelist-filter li { font-size: 12px; }
+.submit-row input, input.default, .button, input[type="submit"] { font-size: 12px; }
+#footer { font-size: 11px; }
+
+@media (max-width: 767px) {
+  #header { min-height: 52px; padding: 0 13px; }
+  #branding { min-height: 52px; }
+  #user-tools { gap: 7px; font-size: 10px; }
+  #nav-sidebar { top: 52px; }
+  .breadcrumbs { padding-inline: 14px; }
+  #content { padding-inline: 13px; }
+  #footer { padding-inline: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* High-contrast, larger text for the admin header and management pages. */
+body { font-size: 15px; }
+#user-tools,
+#user-tools a,
+#user-tools a:link,
+#user-tools a:visited,
+#user-tools button,
+#user-tools strong { color: #263449 !important; font-size: 14px !important; }
+#user-tools ::selection { color: #182230; background: #dbeafe; }
+.gcommerce-nav-link { font-size: 15px; }
+.gcommerce-sidebar-label { font-size: 11px; }
+#content h1 { font-size: 30px; }
+.breadcrumbs { font-size: 14px; }
+.messagelist li { font-size: 15px; }
+.module caption, .module h2, .inline-group h2,
+#changelist-filter h2 { font-size: 15px; }
+.module table th, .module table td,
+#changelist-filter li { font-size: 14px; }
+.submit-row input, input.default, .button, input[type="submit"] { font-size: 14px; }
+#footer { font-size: 13px; }

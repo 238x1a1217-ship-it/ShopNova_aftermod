@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'admin/css/gcommerce-dashboard.css' %}">{% endblock %}
+{% block coltype %}colMS{% endblock %}
+{% block bodyclass %}{{ block.super }} dashboard gcommerce-dashboard{% endblock %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block content %}
+  <div class="gcommerce-dashboard-heading">
+    <div><span class="gcommerce-kicker">STORE OVERVIEW</span><h1>Welcome back, {{ request.user.first_name|default:request.user.username }}</h1><p>Here’s what’s happening with your store today.</p></div>
+    {% if perms.shop.add_product %}<a class="gcommerce-primary-button" href="{% url 'admin:shop_product_add' %}"><span>＋</span> Add product</a>{% endif %}
+  </div>
+
+  <section class="gcommerce-metrics" aria-label="Store metrics">
+    {% if perms.shop.view_product %}<article class="gcommerce-metric"><div class="gcommerce-metric-label">Total products<span class="gcommerce-metric-icon metric-blue">▣</span></div><strong>{{ gcommerce_product_count }}</strong><a href="{% url 'admin:shop_product_changelist' %}">Manage products <span>→</span></a></article>{% endif %}
+    {% if perms.shop.view_category %}<article class="gcommerce-metric"><div class="gcommerce-metric-label">Categories<span class="gcommerce-metric-icon metric-purple">◫</span></div><strong>{{ gcommerce_category_count }}</strong><a href="{% url 'admin:shop_category_changelist' %}">View categories <span>→</span></a></article>{% endif %}
+    {% if perms.shop.view_order %}<article class="gcommerce-metric"><div class="gcommerce-metric-label">Total orders<span class="gcommerce-metric-icon metric-amber">▤</span></div><strong>{{ gcommerce_order_count }}</strong><a href="{% url 'admin:shop_order_changelist' %}">View orders <span>→</span></a></article>
+    <article class="gcommerce-metric"><div class="gcommerce-metric-label">Revenue <small>Excluding cancelled</small><span class="gcommerce-metric-icon metric-green">₹</span></div><strong>₹{{ gcommerce_revenue|floatformat:2 }}</strong><a href="{% url 'admin:shop_order_changelist' %}">View sales <span>→</span></a></article>{% endif %}
+  </section>
+
+  <section class="gcommerce-panels">
+    {% if perms.shop.view_order %}<article class="gcommerce-panel">
+      <div class="gcommerce-panel-heading"><div><h2>Recent orders</h2><p>The latest activity from your customers.</p></div>{% if perms.shop.view_order %}<a href="{% url 'admin:shop_order_changelist' %}">All orders →</a>{% endif %}</div>
+      {% if gcommerce_recent_orders %}
+        <div class="gcommerce-table-scroll"><table class="gcommerce-table">
+          <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>{% for order in gcommerce_recent_orders %}<tr><td>{% if perms.shop.view_order %}<a class="gcommerce-table-link" href="{% url 'admin:shop_order_change' order.pk %}">#{{ order.pk }}</a>{% else %}#{{ order.pk }}{% endif %}</td><td>{{ order.user.username }}</td><td>{{ order.created_at|date:"M j, Y" }}</td><td>₹{{ order.total|floatformat:2 }}</td><td><span class="gcommerce-status status-{{ order.status }}">{{ order.get_status_display }}</span></td></tr>{% endfor %}</tbody>
+        </table></div>
+      {% else %}<div class="gcommerce-empty">Orders will appear here when customers place them.</div>{% endif %}
+    </article>{% endif %}
+
+    {% if perms.shop.view_product %}<article class="gcommerce-panel gcommerce-stock-panel">
+      <div class="gcommerce-panel-heading"><div><h2>Stock alerts</h2><p>Products with 5 or fewer units.</p></div><span class="gcommerce-alert-count">{{ gcommerce_low_stock_count }} low</span></div>
+      {% if gcommerce_low_stock_products %}
+        <div class="gcommerce-stock-list">{% for product in gcommerce_low_stock_products %}
+          <div class="gcommerce-stock-row">
+            <span class="gcommerce-product-thumb">{% if product.image %}<img src="{{ product.image.url }}" alt="">{% else %}▣{% endif %}</span>
+            <span class="gcommerce-product-label">{% if perms.shop.view_product %}<a href="{% url 'admin:shop_product_change' product.pk %}">{{ product.name }}</a>{% else %}{{ product.name }}{% endif %}<small>{{ product.category.name }}</small></span>
+            <span class="gcommerce-stock-amount {% if product.stock == 0 %}is-out{% endif %}">{% if product.stock == 0 %}Out{% else %}{{ product.stock }} left{% endif %}</span>
+          </div>
+        {% endfor %}</div>
+        {% if perms.shop.view_product %}<a class="gcommerce-panel-footer" href="{% url 'admin:inventory' %}">Review inventory <span>→</span></a>{% endif %}
+      {% else %}<div class="gcommerce-empty">All products are stocked above the low-stock threshold.</div>{% endif %}
+    </article>{% endif %}
+  </section>
+
+  {% if app_list %}
+    <section class="gcommerce-applications">
+      <div class="gcommerce-panel-heading"><div><h2>Admin tools</h2><p>Manage Django applications and user access.</p></div></div>
+      <div class="gcommerce-app-list">{% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}</div>
+    </section>
+  {% endif %}
+{% endblock %}
